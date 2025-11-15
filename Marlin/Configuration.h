@@ -21,12 +21,6 @@
  */
 #pragma once
 
-#define CONFIG_EXAMPLES_DIR "Two Trees/BlueR/BlueR V2"
-
-#define BLUER_TMC2209    // Enable for the TMC2209 driver version
-#define BLUER_INVERTED_E // Enable if the extruder runs the wrong way
-// #define BLUER_BLTOUCH // Enable if you want to use BLTOUCH
-
 /**
  * Configuration.h
  *
@@ -67,7 +61,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-#define STRING_CONFIG_H_AUTHOR "(Jsola, DevFront)" // Who made the changes.
+#define STRING_CONFIG_H_AUTHOR "(Jsola, Homelab)" // Who made the changes.
 // #define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -94,7 +88,6 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-// #define MOTHERBOARD BOARD_MKS_ROBIN_NANO
 #define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
 #endif
 
@@ -130,8 +123,8 @@
  * Currently Ethernet (-2) is only supported on Teensy 4.1 boards.
  * :[-2, -1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT_2 4
-#define BAUDRATE_2 115200 // :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000] Enable to override BAUDRATE
+// #define SERIAL_PORT_2 -1
+// #define BAUDRATE_2 250000   // :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000] Enable to override BAUDRATE
 
 /**
  * Select a third serial port on the board to use for communication with the host.
@@ -145,7 +138,7 @@
 // #define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Bluer v1, Mks Robin Nano v2 [Custom1.4.2]"
+#define CUSTOM_MACHINE_NAME "Bluer v1, Mks Robin Nano v2 [Custom1.4.3]"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -168,15 +161,9 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-#if ENABLED(BLUER_TMC2209)
 #define X_DRIVER_TYPE TMC2209_STANDALONE
 #define Y_DRIVER_TYPE TMC2209_STANDALONE
 #define Z_DRIVER_TYPE TMC2209_STANDALONE
-#else
-#define X_DRIVER_TYPE TMC2208_STANDALONE
-#define Y_DRIVER_TYPE TMC2208_STANDALONE
-#define Z_DRIVER_TYPE TMC2208_STANDALONE
-#endif
 // #define X2_DRIVER_TYPE A4988
 // #define Y2_DRIVER_TYPE A4988
 // #define Z2_DRIVER_TYPE A4988
@@ -188,11 +175,7 @@
 // #define U_DRIVER_TYPE  A4988
 // #define V_DRIVER_TYPE  A4988
 // #define W_DRIVER_TYPE  A4988
-#if ENABLED(BLUER_TMC2209)
 #define E0_DRIVER_TYPE TMC2209_STANDALONE
-#else
-#define E0_DRIVER_TYPE A4988
-#endif
 // #define E1_DRIVER_TYPE A4988
 // #define E2_DRIVER_TYPE A4988
 // #define E3_DRIVER_TYPE A4988
@@ -651,14 +634,14 @@
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 300
-#define HEATER_1_MAXTEMP 300
-#define HEATER_2_MAXTEMP 300
-#define HEATER_3_MAXTEMP 300
-#define HEATER_4_MAXTEMP 300
-#define HEATER_5_MAXTEMP 300
-#define HEATER_6_MAXTEMP 300
-#define HEATER_7_MAXTEMP 300
+#define HEATER_0_MAXTEMP 275
+#define HEATER_1_MAXTEMP 275
+#define HEATER_2_MAXTEMP 275
+#define HEATER_3_MAXTEMP 275
+#define HEATER_4_MAXTEMP 275
+#define HEATER_5_MAXTEMP 275
+#define HEATER_6_MAXTEMP 275
+#define HEATER_7_MAXTEMP 275
 #define BED_MAXTEMP 100
 #define CHAMBER_MAXTEMP 60
 
@@ -699,14 +682,14 @@
 #if ENABLED(PID_PARAMS_PER_HOTEND)
 // Specify up to one value per hotend here, according to your setup.
 // If there are fewer values, the last one applies to the remaining hotends.
-#define DEFAULT_Kp_LIST {17.81, 17.81}
-#define DEFAULT_Ki_LIST {1.71, 1.71}
-#define DEFAULT_Kd_LIST {46.30, 46.30}
+#define DEFAULT_Kp_LIST {16.02, 16.02}
+#define DEFAULT_Ki_LIST {1.41, 1.41}
+#define DEFAULT_Kd_LIST {45.50, 45.50}
 #else
 // Bluer
-#define DEFAULT_Kp 17.81
-#define DEFAULT_Ki 1.71
-#define DEFAULT_Kd 46.30
+#define DEFAULT_Kp 16.02
+#define DEFAULT_Ki 1.41
+#define DEFAULT_Kd 45.50
 #endif
 #else
 #define BANG_MAX 255 // Limit hotend current while in bang-bang mode; 255=full current
@@ -793,7 +776,6 @@
 
 // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
 // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-// BlueR PID Settings
 #define DEFAULT_bedKp 39.46
 #define DEFAULT_bedKi 7.47
 #define DEFAULT_bedKd 138.92
@@ -877,7 +859,7 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 500
+#define EXTRUDE_MAXLENGTH 300
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -1149,25 +1131,25 @@
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-#define X_MIN_ENDSTOP_INVERTING true                          // Set to true to invert the logic of the endstop.
-#define Y_MIN_ENDSTOP_INVERTING true                          // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING true                          // Set to true to invert the logic of the endstop.
-#define I_MIN_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define J_MIN_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define K_MIN_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define U_MIN_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define V_MIN_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define W_MIN_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define X_MAX_ENDSTOP_INVERTING true                          // Set to true to invert the logic of the endstop.
-#define Y_MAX_ENDSTOP_INVERTING true                          // Set to true to invert the logic of the endstop.
-#define Z_MAX_ENDSTOP_INVERTING true                          // Set to true to invert the logic of the endstop.
-#define I_MAX_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define J_MAX_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define K_MAX_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define U_MAX_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define V_MAX_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define W_MAX_ENDSTOP_INVERTING false                         // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING DISABLED(BLUER_BLTOUCH) // Set to true to invert the logic of the probe.
+#define X_MIN_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
+#define Y_MIN_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
+#define I_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define J_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define K_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define U_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define V_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define W_MIN_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING true        // Set to true to invert the logic of the endstop.
+#define I_MAX_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define J_MAX_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define K_MAX_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define U_MAX_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define V_MAX_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define W_MAX_ENDSTOP_INVERTING false       // Set to true to invert the logic of the endstop.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
@@ -1216,7 +1198,6 @@
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
 #define DEFAULT_AXIS_STEPS_PER_UNIT {40.1, 40.1, 205.2, 214.0}
-// #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 415 }
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
@@ -1224,7 +1205,6 @@
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
 #define DEFAULT_MAX_FEEDRATE {300, 300, 10, 50}
-// #define DEFAULT_MAX_FEEDRATE {250, 250, 10, 50}
 
 // #define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1323,9 +1303,7 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#if ENABLED(BLUER_BLTOUCH)
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
-#endif
+// #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
 // #define USE_PROBE_FOR_Z_HOMING
@@ -1382,9 +1360,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-#if ENABLED(BLUER_BLTOUCH)
-#define BLTOUCH
-#endif
+// #define BLTOUCH
 
 /**
  * MagLev V4 probe by MDD
@@ -1697,11 +1673,7 @@
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
 #define INVERT_X_DIR false
 #define INVERT_Y_DIR true
-#if ENABLED(BLUER_TMC2209)
 #define INVERT_Z_DIR true
-#else
-#define INVERT_Z_DIR true
-#endif
 // #define INVERT_I_DIR false
 // #define INVERT_J_DIR false
 // #define INVERT_K_DIR false
@@ -1712,11 +1684,7 @@
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#if BOTH(BLUER_INVERTED_E, BLUER_TMC2209)
 #define INVERT_E0_DIR true
-#else
-#define INVERT_E0_DIR true
-#endif
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
@@ -1737,8 +1705,8 @@
  */
 // #define Z_IDLE_HEIGHT Z_HOME_POS
 
-#define Z_HOMING_HEIGHT 10 // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
-                           // Be sure to have this much clearance over your Z_MAX_POS to prevent grinding.
+#define Z_HOMING_HEIGHT 4 // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ...
+//  Be sure to have this much clearance over your Z_MAX_POS to prevent grinding.
 
 // #define Z_AFTER_HOMING  10      // (mm) Height to move to after homing Z
 
@@ -1938,12 +1906,9 @@
  */
 // #define AUTO_BED_LEVELING_3POINT
 // #define AUTO_BED_LEVELING_LINEAR
+// #define AUTO_BED_LEVELING_BILINEAR
 // #define AUTO_BED_LEVELING_UBL
-#if ENABLED(BLUER_BLTOUCH)
-#define AUTO_BED_LEVELING_BILINEAR
-#else
 #define MESH_BED_LEVELING
-#endif
 
 /**
  * Commands to execute at the end of G29 probing.
@@ -1956,7 +1921,7 @@
  * these options to restore the prior leveling state or to always enable
  * leveling immediately after G28.
  */
-#define RESTORE_LEVELING_AFTER_G28
+// #define RESTORE_LEVELING_AFTER_G28
 // #define ENABLE_LEVELING_AFTER_G28
 
 /**
@@ -2058,9 +2023,9 @@
 //===========================================================================
 
 #define MESH_EDIT_GFX_OVERLAY // Display a graphics overlay while editing the mesh
-// mide desde el exterior al inteior cada unidad es 1mm
-#define MESH_INSET 1          // Set Mesh bounds as an inset region of the bed
-#define GRID_MAX_POINTS_X 10  // Don't use more than 15 points per axis, implementation limited.
+
+#define MESH_INSET 1         // Set Mesh bounds as an inset region of the bed
+#define GRID_MAX_POINTS_X 10 // Don't use more than 15 points per axis, implementation limited.
 #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
 // #define UBL_HILBERT_CURVE       // Use Hilbert distribution for less travel when probing multiple points
@@ -2158,9 +2123,7 @@
  * - Allows Z homing only when XY positions are known and trusted.
  * - If stepper drivers sleep, XY homing may be required again before Z homing.
  */
-#if ENABLED(BLUER_BLTOUCH)
 #define Z_SAFE_HOMING
-#endif
 
 #if ENABLED(Z_SAFE_HOMING)
 #define Z_SAFE_HOMING_X_POINT X_CENTER // (mm) X point for Z homing
@@ -2291,7 +2254,7 @@
 #define PREHEAT_1_FAN_SPEED 0 // Value from 0 to 255
 
 #define PREHEAT_2_LABEL "ABS"
-#define PREHEAT_2_TEMP_HOTEND 240
+#define PREHEAT_2_TEMP_HOTEND 220
 #define PREHEAT_2_TEMP_BED 110
 #define PREHEAT_2_TEMP_CHAMBER 35
 #define PREHEAT_2_FAN_SPEED 0 // Value from 0 to 255
@@ -2504,7 +2467,6 @@
  * :{ 'en':'English', 'an':'Aragonese', 'bg':'Bulgarian', 'ca':'Catalan', 'cz':'Czech', 'da':'Danish', 'de':'German', 'el':'Greek (Greece)', 'el_CY':'Greek (Cyprus)', 'es':'Spanish', 'eu':'Basque-Euskera', 'fi':'Finnish', 'fr':'French', 'gl':'Galician', 'hr':'Croatian', 'hu':'Hungarian', 'it':'Italian', 'jp_kana':'Japanese', 'ko_KR':'Korean (South Korea)', 'nl':'Dutch', 'pl':'Polish', 'pt':'Portuguese', 'pt_br':'Portuguese (Brazilian)', 'ro':'Romanian', 'ru':'Russian', 'sk':'Slovak', 'sv':'Swedish', 'tr':'Turkish', 'uk':'Ukrainian', 'vi':'Vietnamese', 'zh_CN':'Chinese (Simplified)', 'zh_TW':'Chinese (Traditional)' }
  */
 #define LCD_LANGUAGE es
-
 /**
  * LCD Character Set
  *
@@ -3268,11 +3230,6 @@
 // #define TOUCH_IDLE_SLEEP_MINS 5 // (minutes) Display Sleep after a period of inactivity. Set with M255 S.
 
 #define TOUCH_SCREEN_CALIBRATION
-
-/*   #define TOUCH_CALIBRATION_X  17880
-  #define TOUCH_CALIBRATION_Y -12234
-  #define TOUCH_OFFSET_X         -45
-  #define TOUCH_OFFSET_Y         349 */
 
 #define TOUCH_CALIBRATION_X 0
 #define TOUCH_CALIBRATION_Y 0

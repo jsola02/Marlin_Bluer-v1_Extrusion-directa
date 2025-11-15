@@ -2,18 +2,53 @@
 
 <h1 align="center">Marlin 3D Printer Firmware</h1>
 
-<p align="center">
-    <a href="/LICENSE"><img alt="GPL-V3.0 License" src="https://img.shields.io/github/license/marlinfirmware/marlin.svg"></a>
-    <a href="https://github.com/MarlinFirmware/Marlin/graphs/contributors"><img alt="Contributors" src="https://img.shields.io/github/contributors/marlinfirmware/marlin.svg"></a>
-    <a href="https://github.com/MarlinFirmware/Marlin/releases"><img alt="Last Release Date" src="https://img.shields.io/github/release-date/MarlinFirmware/Marlin"></a>
-    <a href="https://github.com/MarlinFirmware/Marlin/actions/workflows/ci-build-tests.yml"><img alt="CI Status" src="https://github.com/MarlinFirmware/Marlin/actions/workflows/ci-build-tests.yml/badge.svg"></a>
-    <a href="https://github.com/sponsors/thinkyhead"><img alt="GitHub Sponsors" src="https://img.shields.io/github/sponsors/thinkyhead?color=db61a2"></a>
-    <br />
-    <a href="https://fosstodon.org/@marlinfirmware"><img alt="Follow MarlinFirmware on Mastodon" src="https://img.shields.io/mastodon/follow/109450200866020466?domain=https%3A%2F%2Ffosstodon.org&logoColor=%2300B&style=social"></a>
-</p>
+## Versión personalizada Two Trees Bluer v1 / Mks Robin Nano v.20
 
-Additional documentation can be found at the [Marlin Home Page](//marlinfw.org/).
-Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
+Este repositorio es una **rama personalizada de Marlin 2.1.2.5** pensada para compartir con la comunidad de impresión 3D de **Two Trees** y la comunidad de makers de impresión 3D.  
+Está configurada específicamente para una Two Trees Bluer muy modificada:
+
+- Placa base: **MKS Robin Nano V2.0**, 32 bits (`BOARD_MKS_ROBIN_NANO_V2`).
+- Firmware: **Marlin 2.1.2.5**, compilación `02010205`, entorno PlatformIO `mks_robin_nano_v1v2`.
+- Pantalla: **MKS TS35 v2.0** (compatible TFT35) con `TFT_COLOR_UI` y calibración táctil (`TOUCH_SCREEN`).
+- Drivers: **MKS TMC2209 V2** para X, Y, Z y E0 (modo standalone).
+- Extrusión: **Creality Sprite Extruder Pro Kit**, filamento de 1.75 mm.
+- Eje Z: **doble eje Z** con motores independientes.
+- Finales de carrera: X, Y, Z con nuevo cableado independiente y posicionamiento modificado.
+- Cama: **flexible / vidrio**.
+- Ruedas: **V-SLOT en V, Trianglelab**.
+- Barra de luz LED: **Ender 3 V3** instalada en el marco.
+- Sensor de filamento: detección de corte de filamento activa (`FILAMENT_RUNOUT_SENSOR` + `M600` / `ADVANCED_PAUSE_FEATURE`).
+
+### Características principales de esta configuración
+
+- Volumen de impresión: **230 x 230 x 260 mm**.
+- 1 extrusor, filamento **1.75 mm**.
+- Nivelación: **MESH_BED_LEVELING** con sondeo manual y `Z_SAFE_HOMING` en el centro de la cama.
+- Sensor de fin de filamento activado con script de cambio `M600`.
+- **POWER_LOSS_RECOVERY** para recuperación tras cortes de energía.
+- **EEPROM** activada para guardar ajustes (M500/M501/M502).
+- Control de temperatura por **PID** en hotend y cama (`TEMP_SENSOR_0 1`, `TEMP_SENSOR_BED 1`).
+- Asistente de tramming desde LCD (`LCD_BED_TRAMMING`).
+
+### Cómo compilar esta versión
+
+1. Instala **Visual Studio Code** y la extensión **PlatformIO IDE** (o Auto Build Marlin).
+2. Abre esta carpeta de proyecto en VS Code.
+3. Asegúrate de que en `platformio.ini` el entorno por defecto es:
+   - `default_envs = mks_robin_nano_v1v2`
+4. Compila el proyecto desde PlatformIO / Auto Build Marlin.
+5. El binario generado habitual es:
+   - `.pio/build/mks_robin_nano_v1v2/Robin_nano35.bin`
+
+### Cómo instalar el firmware en la MKS Robin Nano v2.0
+
+1. Formatea una tarjeta **microSD** (FAT32, tamaño pequeño recomendado).
+2. Copia el archivo `Robin_nano35.bin` a la raíz de la tarjeta.
+3. Con la impresora apagada, inserta la tarjeta microSD en la placa.
+4. Enciende la impresora y espera a que termine el proceso de actualización.
+5. Tras actualizar, comprueba en la pantalla que el nombre de la máquina y versión corresponden a esta compilación.
+
+> **Aviso:** Esta configuración está adaptada a una impresora concreta muy modificada. Si tu máquina difiere (mecánica, sensores, drivers, doble Z, etc.), revisa y ajusta `Configuration.h` y `Configuration_adv.h` antes de compilar.
 
 ## Marlin 2.1
 
@@ -35,39 +70,6 @@ To build and upload Marlin you will use one of these tools:
 
 Marlin is optimized to build with the **PlatformIO IDE** extension for **Visual Studio Code**. You can still build Marlin with **Arduino IDE**, and we hope to improve the Arduino build experience, but at this time PlatformIO is the better choice.
 
-## 8-Bit AVR Boards
-
-We intend to continue supporting 8-bit AVR boards in perpetuity, maintaining a single codebase that can apply to all machines. We want casual hobbyists and tinkerers and owners of older machines to benefit from the community's innovations just as much as those with fancier machines. Plus, those old AVR-based machines are often the best for your testing and feedback!
-
-## Hardware Abstraction Layer (HAL)
-
-Marlin includes an abstraction layer to provide a common API for all the platforms it targets. This allows Marlin code to address the details of motion and user interface tasks at the lowest and highest levels with no system overhead, tying all events directly to the hardware clock.
-
-Every new HAL opens up a world of hardware. At this time we need HALs for RP2040 and the Duet3D family of boards. A HAL that wraps an RTOS is an interesting concept that could be explored. Did you know that Marlin includes a Simulator that can run on Windows, macOS, and Linux? Join the Discord to help move these sub-projects forward!
-
-### Supported Platforms
-
-  Platform|MCU|Example Boards
-  --------|---|-------
-  [Arduino AVR](//www.arduino.cc/)|ATmega|RAMPS, Melzi, RAMBo
-  [Teensy++ 2.0](//www.microchip.com/en-us/product/AT90USB1286)|AT90USB1286|Printrboard
-  [Arduino Due](//www.arduino.cc/en/Guide/ArduinoDue)|SAM3X8E|RAMPS-FD, RADDS, RAMPS4DUE
-  [ESP32](//github.com/espressif/arduino-esp32)|ESP32|FYSETC E4, E4d@BOX, MRR
-  [LPC1768](//www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc1700-cortex-m3/512-kb-flash-64-kb-sram-ethernet-usb-lqfp100-package:LPC1768FBD100)|ARM® Cortex-M3|MKS SBASE, Re-ARM, Selena Compact
-  [LPC1769](//www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc1700-cortex-m3/512-kb-flash-64-kb-sram-ethernet-usb-lqfp100-package:LPC1769FBD100)|ARM® Cortex-M3|Smoothieboard, Azteeg X5 mini, TH3D EZBoard
-  [STM32F103](//www.st.com/en/microcontrollers-microprocessors/stm32f103.html)|ARM® Cortex-M3|Malyan M200, GTM32 Pro, MKS Robin, BTT SKR Mini
-  [STM32F401](//www.st.com/en/microcontrollers-microprocessors/stm32f401.html)|ARM® Cortex-M4|ARMED, Rumba32, SKR Pro, Lerdge, FYSETC S6, Artillery Ruby
-  [STM32F7x6](//www.st.com/en/microcontrollers-microprocessors/stm32f7x6.html)|ARM® Cortex-M7|The Borg, RemRam V1
-  [STM32G0B1RET6](//www.st.com/en/microcontrollers-microprocessors/stm32g0x1.html)|ARM® Cortex-M0+|BigTreeTech SKR mini E3 V3.0
-  [STM32H743xIT6](//www.st.com/en/microcontrollers-microprocessors/stm32h743-753.html)|ARM® Cortex-M7|BigTreeTech SKR V3.0, SKR EZ V3.0, SKR SE BX V2.0/V3.0
-  [SAMD51P20A](//www.adafruit.com/product/4064)|ARM® Cortex-M4|Adafruit Grand Central M4
-  [Teensy 3.5](//www.pjrc.com/store/teensy35.html)|ARM® Cortex-M4|
-  [Teensy 3.6](//www.pjrc.com/store/teensy36.html)|ARM® Cortex-M4|
-  [Teensy 4.0](//www.pjrc.com/store/teensy40.html)|ARM® Cortex-M7|
-  [Teensy 4.1](//www.pjrc.com/store/teensy41.html)|ARM® Cortex-M7|
-  Linux Native|x86/ARM/etc.|Raspberry Pi
-  [All supported boards](//marlinfw.org/docs/hardware/boards.html#boards-list)|All platforms|All boards
-
 ## Marlin Support
 
 The Issue Queue is reserved for Bug Reports and Feature Requests. Please use the following resources for help with configuration and troubleshooting:
@@ -79,49 +81,11 @@ The Issue Queue is reserved for Bug Reports and Feature Requests. Please use the
 - Facebook Group ["Marlin Firmware for 3D Printers"](//www.facebook.com/groups/3Dtechtalk/)
 - [Marlin Configuration](//www.youtube.com/results?search_query=marlin+configuration) on YouTube
 
-## Contributing Patches
-
-You can contribute patches by submitting a Pull Request to the ([bugfix-2.1.x](//github.com/MarlinFirmware/Marlin/tree/bugfix-2.1.x)) branch.
-
-- We use branches named with a "bugfix" or "dev" prefix to fix bugs and integrate new features.
-- Follow the [Coding Standards](//marlinfw.org/docs/development/coding_standards.html) to gain points with the maintainers.
-- Please submit Feature Requests and Bug Reports to the [Issue Queue](//github.com/MarlinFirmware/Marlin/issues/new/choose). See above for user support.
-- Whenever you add new features, be sure to add one or more build tests to `buildroot/tests`. Any tests added to a PR will be run within that PR on GitHub servers as soon as they are pushed. To minimize iteration be sure to run your new tests locally, if possible.
-  - Local build tests:
-    - All: `make tests-config-all-local`
-    - Single: `make tests-config-single-local TEST_TARGET=...`
-  - Local build tests in Docker:
-    - All: `make tests-config-all-local-docker`
-    - Single: `make tests-config-all-local-docker TEST_TARGET=...`
-  - To run all unit test suites:
-    - Using PIO: `platformio run -t test-marlin`
-    - Using Make: `make unit-test-all-local`
-    - Using Docker + make: `maker unit-test-all-local-docker`
-  - To run a single unit test suite:
-    - Using PIO: `platformio run -t marlin_<test-suite-name>`
-    - Using make: `make unit-test-single-local TEST_TARGET=<test-suite-name>`
-    - Using Docker + make: `maker unit-test-single-local-docker TEST_TARGET=<test-suite-name>`
-- If your feature can be unit tested, add one or more unit tests. For more information see our documentation on [Unit Tests](test).
-
 ## Contributors
 
 Marlin is constantly improving thanks to a huge number of contributors from all over the world bringing their specialties and talents. Huge thanks are due to [all the contributors](//github.com/MarlinFirmware/Marlin/graphs/contributors) who regularly patch up bugs, help direct traffic, and basically keep Marlin from falling apart. Marlin's continued existence would not be possible without them.
 
 Marlin Firmware original logo design by Ahmet Cem TURAN [@ahmetcemturan](//github.com/ahmetcemturan).
-
-## Project Leadership
-
-Name|Role|Link|Donate
-----|----|----|----
-🇺🇸 Scott Lahteine|Project Lead|[[@thinkyhead](//github.com/thinkyhead)]|[💸 Donate](//marlinfw.org/docs/development/contributing.html#donate)
-🇺🇸 Roxanne Neufeld|Admin|[[@Roxy-3D](//github.com/Roxy-3D)]|
-🇺🇸 Keith Bennett|Admin|[[@thisiskeithb](//github.com/thisiskeithb)]|[💸 Donate](//github.com/sponsors/thisiskeithb)
-🇺🇸 Jason Smith|Admin|[[@sjasonsmith](//github.com/sjasonsmith)]|
-🇧🇷 Victor Oliveira|Admin|[[@rhapsodyv](//github.com/rhapsodyv)]|
-🇬🇧 Chris Pepper|Admin|[[@p3p](//github.com/p3p)]|
-🇳🇿 Peter Ellens|Admin|[[@ellensp](//github.com/ellensp)]|[💸 Donate](//ko-fi.com/ellensp)
-🇺🇸 Bob Kuhn|Admin|[[@Bob-the-Kuhn](//github.com/Bob-the-Kuhn)]|
-🇳🇱 Erik van der Zalm|Founder|[[@ErikZalm](//github.com/ErikZalm)]|
 
 ## Star History
 
