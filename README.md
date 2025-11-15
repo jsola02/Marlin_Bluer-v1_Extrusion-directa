@@ -30,6 +30,10 @@ Está configurada específicamente para una Two Trees Bluer muy modificada:
 - Control de temperatura por **PID** en hotend y cama (`TEMP_SENSOR_0 1`, `TEMP_SENSOR_BED 1`).
 - Asistente de tramming desde LCD (`LCD_BED_TRAMMING`).
 
+### Características Pendientes o deshabilitados.
+
+- Reanudar despues de corte de energia (`Power Loss Recovery`). Porque no se realizar impresiones largas.
+
 ### Cómo compilar esta versión
 
 1. Instala **Visual Studio Code** y la extensión **PlatformIO IDE** (o Auto Build Marlin).
