@@ -138,7 +138,7 @@
 // #define BLUETOOTH
 
 // Name displayed in the LCD "Ready" message and Info menu
-#define CUSTOM_MACHINE_NAME "Bluer v1, Mks Robin Nano v2 [Custom1.4.3]"
+#define CUSTOM_MACHINE_NAME "Bluer v1, Mks Robin Nano v2 [Custom1.4.4]"
 
 // Printer's unique ID, used by some programs to differentiate between machines.
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
@@ -1197,7 +1197,7 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT {40.1, 40.1, 205.2, 214.0}
+#define DEFAULT_AXIS_STEPS_PER_UNIT {40.1, 40.1, 200.7, 214.0}
 
 /**
  * Default Max Feed Rate (linear=mm/s, rotational=°/s)
